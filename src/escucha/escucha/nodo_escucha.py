@@ -1,5 +1,8 @@
 import rclpy
 from rclpy.node import Node
+
+from kobuki_ros_interfaces.msg import BumperEvent
+
 from std_msgs.msg import String
 
 from escucha.cliente_escucha import ASRActionClient
@@ -10,7 +13,7 @@ class NodoEscucha(Node):
     def __init__(self):
         super().__init__('escucha_boton')
         self.subscription = self.create_subscription(
-            String,
+            BumperEvent,
             '/events/bumper',
             self.listener_callback,
             10)
@@ -21,7 +24,7 @@ class NodoEscucha(Node):
 
     def listener_callback(self, msg):
         print('Boton presionado, cliente con goal 0')
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        self.get_logger().info('I heard: "%s"' % msg)
         self.cliente.send_goal(0);
         rclpy.spin(self.cliente)
 

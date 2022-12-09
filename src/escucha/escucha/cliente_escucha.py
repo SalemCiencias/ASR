@@ -43,8 +43,10 @@ class ASRActionClient(Node):
     def get_result_callback(self, future):
         result = future.result()
         self.get_logger().info('Result: {0}'.format(result))
-
-        publisher.publish(result)
+        
+        publicar = String()
+        publicar.data = result.result.resultado
+        self.publisher.publish(publicar)
 
         rclpy.shutdown()
 
